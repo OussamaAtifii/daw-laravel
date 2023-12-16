@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return "Victor es un psicopata";
+        $categories = Category::orderBy('nombre')->paginate(5);
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -28,7 +29,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:categories,nombre'],
+            'descripcion' => ['required', 'string', 'min:10'],
+        ]);
+
+        Category::create([
+            'nombre' => ucfirst($request->nombre),
+            'descripcion' => ucfirst($request->descripcion)
+        ]);
+
+        return redirect()->route('categories.index')->with('info', "Categoria guardada correctamente");
     }
 
     /**
@@ -44,7 +55,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -52,7 +63,14 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:categories,nombre,' . $category->id],
+            'descripcion' => ['required', 'string', 'min:10'],
+        ]);
+
+        $category->update($request->all());
+
+        return redirect()->route('categories.index')->with('info', "Categoria modificada correctamente");
     }
 
     /**
@@ -60,6 +78,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('info', "Categoria borrada correctamente");
     }
 }
