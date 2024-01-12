@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::with('category')->orderBy('id', 'desc')->paginate(7);
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -20,7 +22,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::select('id', 'nombre')->orderBy('nombre')->get();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -28,7 +31,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titulo' => ['required', 'string', 'min:4', 'unique:posts,titulo'],
+            'contenido' => ['required', 'string', 'min:10'],
+            'publicado' => ['required'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'imagen' => ['nullable', 'image', 'max:2048']
+        ]);
     }
 
     /**
@@ -36,7 +45,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.detalle', compact('post'));
     }
 
     /**
