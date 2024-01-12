@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\InicioController;
+use App\Http\Controllers\PostController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [InicioController::class, 'home'])->name('home');
 Route::resource(('categories'), CategoryController::class);
+Route::resource(('posts'), PostController::class);
