@@ -23,7 +23,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::getCategorias();
+        $categories = Category::select('id', 'nombre')->orderBy('nombre')->get();
         return view('posts.create', compact('categories'));
     }
 
