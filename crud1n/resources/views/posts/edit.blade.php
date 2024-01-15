@@ -1,18 +1,19 @@
 @extends('plantillas.principal')
 
 @section('titulo')
-    Añadir post
+    Editar post
 @endsection
 @section('cabecera')
-    Crear post
+    Editar post
 @endsection
 @section('contenido')
     <div class="mx-auto p-6 rounded-xl shadow-1l">
-        <form class="max-w-sm mx-auto" method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
+        <form class="max-w-sm mx-auto" method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="mb-5">
                 <label for="titulo" class="block mb-2 text-sm font-medium text-gray-900">Titulo</label>
-                <input type="text" id="titulo" value="{{ old('titulo') }}"
+                <input type="text" id="titulo" value="{{ old('titulo', $post->titulo) }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Añade un titulo" name="titulo">
                 @error('titulo')
@@ -25,7 +26,7 @@
                 </label>
                 <textarea id="contenido"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    name="contenido" placeholder="Añade el contenido">{{ old('contenido') }}</textarea>
+                    name="contenido" placeholder="Añade el contenido">{{ old('contenido', $post->contenido) }}</textarea>
                 @error('contenido')
                     <p class="text-red-500 italic text-sm mt-2">{{ $message }}</p>
                 @enderror
@@ -35,7 +36,7 @@
                 <div class="flex items-center mb-4">
                     <input id="publicado" type="checkbox" value="SI" name="publicado"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        @checked(old('publicado') == 'SI')>
+                        @checked(old('publicado', $post->publicado) == 'SI')>
 
                     <label for="publicado" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">SI</label>
                 </div>
@@ -47,7 +48,7 @@
                     name="category_id">
                     <option value="safart">Seleccione una categoria</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->nombre }}</option>
+                        <option value="{{ $category->id }}" @selected(old('category_id', $post->category_id) == $category->id)>{{ $category->nombre }}</option>
                     @endforeach
                 </select>
                 @error('category_id')
@@ -67,14 +68,16 @@
                         @enderror
                     </div>
                     <div class="w-1/2">
-                        <img src="{{ Storage::url('posts/default.jpg') }}"
+                        <img src="{{ Storage::url($post->imagen) }}"
                             class="h-72 rounded w-full object-cover border-4 border-black" id="img">
                     </div>
                 </div>
 
             </div>
             <div class="flex flex-row-reverse">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sumbit</button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <i class="fas fa-edit mr-2"></i> Editar
+                </button>
             </div>
         </form>
     </div>

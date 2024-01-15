@@ -24,3 +24,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [InicioController::class, 'home'])->name('home');
 Route::resource(('categories'), CategoryController::class);
 Route::resource(('posts'), PostController::class);
+
+Route::get('posts1/{category}', [PostController::class, 'postsCategoria'])->name('posts.categoria');

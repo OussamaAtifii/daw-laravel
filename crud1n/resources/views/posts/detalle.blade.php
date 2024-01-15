@@ -13,9 +13,13 @@
             <div class="p-5">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ $post->titulo }}</h5>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->contenido }}</p>
+
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    <span class="font-bold">Categoria: </span> {{ $post->category->nombre }}
+                    <span class="font-bold">Categoria: </span>
+                    <a href="{{ route('posts.categoria', $post->category->id) }}"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl">{{ $post->category->nombre }}</a>
                 </p>
+
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                     <span class="font-bold">Publicado: </span> {{ $post->publicado }}
                 </p>

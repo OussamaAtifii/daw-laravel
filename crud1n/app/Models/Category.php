@@ -18,4 +18,10 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    // Metodo estatico para obtener el nombre e id de todas las categorias
+    public static function getCategorias()
+    {
+        return Category::select('id', 'nombre')->orderBy('nombre')->get();
+    }
 }

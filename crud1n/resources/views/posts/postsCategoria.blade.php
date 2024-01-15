@@ -1,17 +1,12 @@
 @extends('plantillas.principal')
 
 @section('titulo')
-    Inicio posts
+    Posts categoria
 @endsection
 @section('cabecera')
-    Mis posts
+    Posts de la categoria {{ $nombre }}
 @endsection
 @section('contenido')
-    <div class="my-2 flex flex-row-reverse">
-        <a href="{{ route('posts.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            <i class="fas fa-add mr-1"></i> Añadir
-        </a>
-    </div>
     <div class="relative overflow-x-auto rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -23,13 +18,7 @@
                         Titulo
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Categoria
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Publicado
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Acciones
                     </th>
                 </tr>
             </thead>
@@ -45,9 +34,6 @@
                             {{ $post->titulo }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $post->category->nombre }}
-                        </td>
-                        <td class="px-6 py-4">
                             <div class="flex items-center">
                                 <div @class([
                                     'h-2.5 w-2.5 rounded-full bg-green-500 me-2',
@@ -55,18 +41,6 @@
                                     'bg-red-500' => $post->publicado == 'NO',
                                 ])></div>{{ $post->publicado }}
                             </div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <form action="{{ route('posts.destroy', $post) }}" method="POST">
-                                @csrf
-                                @method('delete')
-                                <a href="{{ route('posts.edit', $post) }}">
-                                    <i class="fas fa-edit mr-2 text-green-500"></i>
-                                </a>
-                                <button>
-                                    <i class="fas fa-trash text-red-500"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -76,16 +50,4 @@
     <div class="mt-2">
         {{ $posts->links() }}
     </div>
-@endsection
-@section('mensajes')
-    @if (session('info'))
-        <script>
-            Swal.fire({
-                icon: "success",
-                title: "{{ session('info') }}",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        </script>
-    @endif
 @endsection
