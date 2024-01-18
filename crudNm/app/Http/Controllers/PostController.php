@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,7 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderBy('id', 'desc')->paginate(8);
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -20,7 +22,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $tags = Tag::select('id', 'nombre')->orderBy('nombre')->get();
+        return view('posts.create', compact('tags'));
     }
 
     /**
@@ -28,7 +31,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titulo' => ['required', 'string', 'min:3', 'unique:posts,titulo'],
+            'contenido' => ['required', 'string', 'min:10'],
+            'imagen' => ['required', 'image', 'max:2048'],
+            'estado' => ['nullable'],
+            'tags' => ['required', 'array', 'min:1', 'exists:tags,id']
+        ]);
     }
 
     /**
