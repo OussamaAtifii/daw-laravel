@@ -17,11 +17,12 @@ class PostFactory extends Factory
     public function definition(): array
     {
         fake()->addProvider(new \Mmo\Faker\PicsumProvider(fake()));
+
         return [
             'titulo' => fake()->unique()->sentence(),
             'contenido' => fake()->text(),
             'estado' => random_int(1, 2),
-            'imagen' => fake()->picsum('public/storage/posts/', 640, 480, false),
+            'imagen' => "posts/" . fake()->picsum('public/storage/posts/', 640, 480, false),
         ];
     }
 }
