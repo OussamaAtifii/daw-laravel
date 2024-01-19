@@ -52,10 +52,11 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <form action="http://192.168.211.30:8000/posts/50" method="POST">
-                                <input type="hidden" name="_token" value="k4T4BOadHZCcLKMUUZbEpdOHYKe4zPcDMUVK6mFC"
-                                    autocomplete="off"> <input type="hidden" name="_method" value="delete"> <a
-                                    href="http://192.168.211.30:8000/posts/50/edit" class="mr-2">
+                            <form action="{{ route('posts.destroy', $post) }}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <input type="hidden" name="_method" value="delete">
+                                <a href="{{ route('posts.edit', $post) }}" class="mr-2">
                                     <i class="fas fa-edit text-green-400 hover:text-2xl"></i>
                                 </a>
                                 <button type="submit">
