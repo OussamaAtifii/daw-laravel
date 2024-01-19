@@ -33,4 +33,14 @@ class Post extends Model
             set: fn ($v) => ucfirst($v),
         );
     }
+
+    public function getTagsId(): array
+    {
+        $tagsPost = [];
+        foreach ($this->tags as $tag) {
+            $tagsPost[] = $tag->id;
+        }
+
+        return $tagsPost;
+    }
 }
