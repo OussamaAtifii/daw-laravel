@@ -78,6 +78,36 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $request->validate([
+            'titulo' => ['required', 'string', 'min:3', 'unique:posts,titulo,' . $post->id],
+            'contenido' => ['required', 'string', 'min:10'],
+            'imagen' => ['nullable', 'image', 'max:2048'],
+            'estado' => ['nullable'],
+            'tags' => ['required', 'array', 'min:1', 'exists:tags,id']
+        ]);
+
+        // Borrar imagen anterior si no es la por defecto y se sube una nueva 
+        $ruta = $post->imagen;
+        if ($request->imagen) {
+            if (basename($ruta) != "default.jpg") {
+                Storage::delete($ruta);
+            }
+            $ruta = $request->imagen->store('posts');
+        }
+
+        // Actualizar el post   
+        $post->update([
+            'titulo' => $request->titulo,
+            'contenido' => $request->contenido,
+            'imagen' => $ruta,
+            'estado' => ($request->estado) ? 'publicado' : 'borrador',
+        ]);
+
+        // Actualizar los tags del post
+        // sync() borra los tags anteriores y añade los nuevos
+        $post->tags()->sync($request->tags);
+
+        return redirect()->route('posts.index')->with('info', 'Post actualizado correctamente');
     }
 
     /**

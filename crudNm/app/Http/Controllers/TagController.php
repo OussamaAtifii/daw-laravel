@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use LVR\Colour\Hex;
 
 class TagController extends Controller
 {
@@ -12,7 +13,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::orderBy('nombre')->paginate(8);
+        return view('tags.index', compact('tags'));
     }
 
     /**
@@ -20,7 +22,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
@@ -28,15 +30,14 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:tags,nombre'],
+            'color' => ['required', new Hex()]
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Tag $tag)
-    {
-        //
+        Tag::create($request->all());
+
+        return redirect()->route('tags.index')->with('info', 'Tag creado correctamente');
     }
 
     /**
@@ -44,7 +45,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return view('tags.edit', compact('tag'));
     }
 
     /**
@@ -52,7 +53,14 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:tags,nombre'],
+            'color' => ['required', new Hex()]
+        ]);
+
+        $tag->update($request->all());
+
+        return redirect()->route('tags.index')->with('info', 'Tag editado correctamente');
     }
 
     /**
@@ -60,6 +68,7 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+        return redirect()->route('tags.index')->with('info', 'Tag eliminado correctamente');
     }
 }
