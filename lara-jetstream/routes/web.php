@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Livewire\ShowPosts;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('categories', CategoryController::class)->except('show');
+    Route::get('posts', ShowPosts::class)->name('posts.index'); // Livewire component route
 });

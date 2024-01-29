@@ -19,6 +19,12 @@
                         <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                             <i class="fas fa-gears mr-1"></i> {{ __('Dashboard') }}
                         </x-nav-link>
+                        <x-nav-link href="{{ route('categories.index') }}" :active="request()->routeIs('categories.*')">
+                            <i class="fa-solid fa-icons mr-2"></i> {{ __('Categorías') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.index')">
+                            <i class="fa-solid fa-signs-post mr-2"></i> {{ __('Posts') }}
+                        </x-nav-link>
                     @endauth
                 </div>
             </div>

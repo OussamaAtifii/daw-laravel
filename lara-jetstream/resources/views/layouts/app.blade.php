@@ -51,6 +51,43 @@
     @stack('modals')
 
     @livewireScripts
+    @if (session('info'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                text: "{{ session('info') }}",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+    {{-- Eventos livewire --}}
+    <script>
+        Livewire.on('info', (txt) => {
+            Swal.fire({
+                icon: 'success',
+                text: txt,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+
+        Livewire.on('confirmarBorrado', (postId) => {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "¡No podrás revertir esto!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminarlo"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.dispatchTo('show-posts', 'borradoConfirmado', postId);
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>
