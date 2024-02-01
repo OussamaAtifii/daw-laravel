@@ -35,7 +35,9 @@
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td class="w-4 p-4">
-                            <button><i class="fa-solid fa-circle-info"></i></button>
+                            <button wire:click="showPost({{ $post->id }})">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
                         </td>
                         <th scope="row"
                             class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
@@ -147,16 +149,42 @@
     @endisset
 
     {{-- Modal detalles --}}
-    <x-dialog-modal wire:model='openUpdateModal'>
+    <x-dialog-modal wire:model='openShowModal'>
         <x-slot name="title">
             Detalles del post
         </x-slot>
         <x-slot name="content">
-
+            <div class="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow ">
+                <img class="rounded-t-lg bg-cover bg-center" src="{{ Storage::url($post->imagen) }}"
+                    alt="" />
+                <div class="p-5">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ $post->titulo }}</h5>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ $post->contenido }}</p>
+                    <div class="mb-3">
+                        <span class="font-bold">Categoría: </span> {{ $post->category->nombre }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Email: </span> {{ $post->user->email }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold" @class([
+                            'text-green-600' => $post->estado == 'publicado',
+                            'text-red-600 line-throught' => $post->estado == 'borrador',
+                        ])>Estado: </span>
+                        {{ $post->estado ? 'publicado' : 'borrador' }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Creado: </span> {{ $post->created_at->format('d/m/Y H:i:s') }}
+                    </div>
+                    <div class="mb-3">
+                        <span class="font-bold">Modificado: </span> {{ $post->updated_at->format('d/m/Y H:i:s') }}
+                    </div>
+                </div>
+            </div>
         </x-slot>
         <x-slot name="footer">
             <div class="flex flex-row-reverse">
-                <button wire:click="" type="submit" wire:loading.attr='disabled'
+                <button wire:click="cancelarShow" type="submit" wire:loading.attr='disabled'
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     <i class="fas fa-update"></i> Editar
                 </button>

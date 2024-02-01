@@ -1,9 +1,14 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\Socialite\GithubController;
+use App\Http\Controllers\Socialite\GoogleController;
 use App\Livewire\ShowPosts;
+use App\Mail\ContactoMailable;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +39,16 @@ Route::middleware([
     Route::resource('categories', CategoryController::class)->except('show');
     Route::get('posts', ShowPosts::class)->name('posts.index'); // Livewire component route
 });
+
+Route::get('contacto', [ContactoController::class, 'showForm'])->name('contacto.index');
+Route::post('contacto', [ContactoController::class, 'sendForm'])->name('contacto.send');
+
+
+// --------------- Rutas para socilaite login ---------------
+// GITHUB
+Route::get('/auth/github/redirect', [GithubController::class, 'redirect'])->name('github.redirect');
+Route::get('/auth/github/callback', [GithubController::class, 'callback'])->name('github.callback');
+
+// GOOGLE
+Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');

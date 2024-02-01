@@ -26,6 +26,9 @@
                             <i class="fa-solid fa-signs-post mr-2"></i> {{ __('Posts') }}
                         </x-nav-link>
                     @endauth
+                    <x-nav-link href="{{ route('contacto.index') }}" :active="request()->routeIs('contacto.*')">
+                        <i class="fa-solid fa-envelope mr-1"></i> {{ __('Contacto') }}
+                    </x-nav-link>
                 </div>
             </div>
             @auth
