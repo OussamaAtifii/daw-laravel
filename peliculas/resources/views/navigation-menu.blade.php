@@ -21,6 +21,9 @@
                     <x-nav-link href="{{ route('tags.index') }}" :active="request()->routeIs('tags.*')">
                         <i class="fa-solid fa-tag mr-1 mt-1"></i> {{ __('Tags') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('films.show') }}" :active="request()->routeIs('films.*')">
+                        <i class="fa-solid fa-film mr-1"></i> {{ __('Films') }}
+                    </x-nav-link>
                 </div>
             </div>
 
