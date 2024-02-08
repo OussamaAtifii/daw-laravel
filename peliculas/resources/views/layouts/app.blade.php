@@ -50,7 +50,18 @@
 
     @stack('modals')
 
+    {{-- Recibir evento lanzado desde componente livewire a otro sin livewire --}}
     @livewireScripts
+    <script>
+        Livewire.on('mensaje', txt => {
+            Swal.fire({
+                icon: "success",
+                title: txt,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+    </script>
 </body>
 
 </html>
