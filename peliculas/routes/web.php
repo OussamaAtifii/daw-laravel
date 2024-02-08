@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+use App\Livewire\ShowFilms;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +31,6 @@ Route::middleware([
 
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('tags', TagController::class)->except('show');
+
+    Route::get('films', ShowFilms::class)->name('films.show');
 });
