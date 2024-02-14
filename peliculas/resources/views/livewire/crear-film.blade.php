@@ -25,11 +25,10 @@
             </select>
             <x-input-error for="category_id" />
 
-
             <x-label for="disponible">Disponible</x-label>
-            <input id="default-checkbox" type="checkbox" value=""
+            <input id="default-checkbox" type="checkbox" value="si"
                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 mb-2"
-                id="disponible" name="disponible" value="si" wire_model="disponible">
+                id="disponible" name="disponible" value="si" wire:model="disponible">
             <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900">Si</label>
             <x-input-error for="disponible" />
 

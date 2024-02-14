@@ -33,7 +33,6 @@ class CrearFilm extends Component
     #[Validate(['required', 'array', 'min:1', 'exists:tags,id'])]
     public array $tags_id = [];
 
-
     public function render()
     {
         $tags = Tag::select('id', 'nombre', 'color')->orderBy('nombre')->get();
@@ -61,10 +60,11 @@ class CrearFilm extends Component
 
         // Evento para lanzar a todo el proyecto
         $this->dispatch('mensaje', 'Pelicula creada correctamente');
+        $this->cancelarCrear();
     }
 
     public function cancelarCrear()
     {
-        $this->reset(['openModalCrear', 'titulo', 'imagen', 'disponible', 'category_id', 'tags_id', 'sinopsis']);
+        $this->reset(['modalCrear', 'titulo', 'imagen', 'disponible', 'category_id', 'tags_id', 'sinopsis']);
     }
 }

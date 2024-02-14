@@ -12,7 +12,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:categories,nombre']
+        ]);
+
+        Category::create($request->all());
+
+        return redirect()->route('categories.index')->with('info', 'Categoria creada correctamente');
     }
 
     /**
@@ -44,7 +51,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.update', compact('category'));
     }
 
     /**
@@ -52,7 +59,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'nombre' => ['required', 'string', 'min:3', 'unique:categories,nombre,' . $category->id]
+        ]);
+
+        $category->update([
+            'nombre' => $request->nombre
+        ]);
+
+        return redirect()->route('categories.index')->with('info', 'Categoria modificada correctamente');
     }
 
     /**
@@ -60,6 +75,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('info', 'Categoria borrada correctamente');
     }
 }

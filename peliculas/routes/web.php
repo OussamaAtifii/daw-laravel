@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Socialite\GithubController;
 use App\Http\Controllers\TagController;
 use App\Livewire\ShowFilms;
 use Illuminate\Support\Facades\Route;
@@ -34,3 +35,13 @@ Route::middleware([
 
     Route::get('films', ShowFilms::class)->name('films.show');
 });
+
+Route::get(
+    '/auth/github/redirect',
+    [GithubController::class, 'redirect']
+)->name('github.redirect');
+
+Route::get(
+    '/auth/github/callback',
+    [GithubController::class, 'callback']
+)->name('github.callback');

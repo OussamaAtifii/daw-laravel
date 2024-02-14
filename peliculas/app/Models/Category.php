@@ -22,7 +22,7 @@ class Category extends Model
     public function nombre(): Attribute
     {
         return Attribute::make(
-            set: fn ($v) => ucfirst($v)
+            set: fn ($v) => ucwords($v)
         );
     }
 }

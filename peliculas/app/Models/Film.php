@@ -19,6 +19,17 @@ class Film extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function getTagsId(Film $film): array
+    {
+        $tags = [];
+
+        foreach ($this->tags as $tag) {
+            $tags[] = $tag->id;
+        }
+
+        return $tags;
+    }
+
     // Relacion N:M con tag
     public function tags(): BelongsToMany
     {
