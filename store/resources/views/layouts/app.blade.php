@@ -51,6 +51,32 @@
     @stack('modals')
 
     @livewireScripts
+    <script>
+        Livewire.on('mensaje', (texto) => {
+            Swal.fire({
+                icon: 'success',
+                title: texto,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        })
+
+        Livewire.on('confirmarBorrar', (id) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.dispatchTo('show-products', 'borrarOk', id)
+                }
+            });
+        })
+    </script>
 </body>
 
 </html>

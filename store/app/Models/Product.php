@@ -40,4 +40,14 @@ class Product extends Model
             set: fn ($v) => ucfirst($v)
         );
     }
+
+    public function getTags(): array
+    {
+        $tags = [];
+        foreach ($this->tags as $tag) {
+            $tags[] = $tag->id;
+        }
+
+        return $tags;
+    }
 }
