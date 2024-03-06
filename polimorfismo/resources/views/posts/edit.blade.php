@@ -1,0 +1,56 @@
+@extends('layouts.main')
+@section('titulo')
+    Gestion de Posts
+@endsection
+
+@section('cabecera')
+    Modificar Post
+@endsection
+
+@section('contenido')
+    <form class="max-w-sm mx-auto" method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="mb-5">
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dar:text-white">Titulo</label>
+            <input id="title" name="nombre" value="{{ old('nombre', $post->nombre) }}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dar:bg-gray-700 dar:border-gray-600 dar:placeholder-gray-400 dar:text-white dar:focus:ring-blue-500 dar:focus:border-blue-500"
+                required />
+            @error('nombre')
+                <span class="text-red-500 text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="mb-5">
+            <label for="descripcion" class="block mb-2 text-sm font-medium text-gray-900 dar:text-white">Descripción del
+                post</label>
+            <textarea type="text" id="descripcion" name="descripcion"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dar:bg-gray-700 dar:border-gray-600 dar:placeholder-gray-400 dar:text-white dar:focus:ring-blue-500 dar:focus:border-blue-500"
+                required>{{ old('descripcion', $post->descripcion) }}</textarea>
+            @error('descripcion')
+                <span class="text-red-500 text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dar:text-white" for="file_input">Imagen</label>
+            <input type="file" name="imagen" value="{{ old('imagen', $post->image->url_imagen) }}"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dar:bg-gray-700 dar:border-gray-600 dar:placeholder-gray-400 dar:text-white dar:focus:ring-blue-500 dar:focus:border-blue-500"
+                id="file_input">
+            @error('imagen')
+                <span class="text-red-500 text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div class="mb-5">
+            <label for="img-desc" class="block mb-2 text-sm font-medium text-gray-900 dar:text-white">Descripción de la
+                imagen</label>
+            <textarea type="text" id="img-desc" name="img_desc"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dar:bg-gray-700 dar:border-gray-600 dar:placeholder-gray-400 dar:text-white dar:focus:ring-blue-500 dar:focus:border-blue-500"
+                required>{{ old('img-desc', $post->image->desc_imagen) }}</textarea>
+            @error('img_desc')
+                <span class="text-red-500 text-xs">{{ $message }}</span>
+            @enderror
+        </div>
+        <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dar:bg-blue-600 dar:hover:bg-blue-700 dar:focus:ring-blue-800">Submit</button>
+    </form>
+@endsection
